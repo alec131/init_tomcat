@@ -1,0 +1,3 @@
+---
+- name: Include Tomcat Handler
+  include: roles/tomcat/handlers/main.yml

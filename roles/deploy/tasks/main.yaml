@@ -1,0 +1,6 @@
+---  
+- name: Init project dir
+  file: path=/qingke/webapps/{{ project_name }} owner={{ common_user }} group={{ common_user }} state=directory recurse=yes
+
+- name: Download and Extract project archive
+  unarchive: src={{ wars_url }}/{{ project_war }} dest=/qingke/webapps/{{ project_name }}  owner={{ common_user }} group={{ common_user }} remote_src=yes

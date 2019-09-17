@@ -1,0 +1,10 @@
+---
+- name: Init Project Backup
+  file: path=/qingke/backup/{{ project_name }} owner={{ common_user }} group={{ common_user }} state=directory 
+
+- name: Backup Project
+  shell: |
+     backup_name={{ project_name }}_`date +%Y%m%d_%H%M%S`.tar.gz
+     tar -zcvf /qingke/backup/{{ project_name }}/$backup_name {{ project_name }}
+  args:
+    chdir: /qingke/webapps

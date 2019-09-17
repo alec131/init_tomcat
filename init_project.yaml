@@ -1,0 +1,21 @@
+---
+# Install tomcat
+
+- hosts: tomcat-servers
+  remote_user: root
+  become: yes
+  become_method: sudo
+  vars:
+    project_name: qkFastdfsProvider
+    wars_url: http://192.168.1.30/wars
+    project_war: qkFastdfsProvider.war
+    common_user: qktest
+    jdk_version: jdk6
+    tomcat_version: tomcat6
+    http_port: 8080
+    dir_list: {/qingke/tomcats,/qingke/webapps,/qingke/appsconfig,/qingke/logs,/qingke/backup}
+  roles:
+    - init_dir
+    - deploy
+    - jdk
+    - tomcat

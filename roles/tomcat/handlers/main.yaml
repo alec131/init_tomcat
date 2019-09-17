@@ -1,0 +1,11 @@
+---
+- name: Restart Tomcat
+  service: name={{ project_name }} state=restarted
+
+- name: Stop Tomcat
+  service: name={{ project_name }} state=stopped
+
+- name: Start Tomcat
+  service: name={{ project_name }} state=started  enabled=yes
+
+

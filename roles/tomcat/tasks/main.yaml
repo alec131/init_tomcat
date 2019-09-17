@@ -1,0 +1,47 @@
+---
+# tomcat6
+- name: Copy and Extract tomcat6 archive
+  unarchive: src=http://192.168.1.150:8080/sw/tomcat/apache-tomcat-6.0.9.tar.gz dest=/tmp/ copy=yes
+  when: tomcat_version == "tomcat6"
+
+- name: Rename Tomcat6
+  command: mv -T /tmp/apache-tomcat-6.0.9 /qingke/tomcats/{{ project_name }}_tomcat
+  when: tomcat_version == "tomcat6"
+
+# tomcat7
+- name: Copy and Extract tomcat7 archive
+  unarchive: src=http://192.168.1.150:8080/sw/tomcat/apache-tomcat-7.0.82.tar.gz dest=/tmp/ copy=yes
+  when: tomcat_version == "tomcat7"
+
+- name: Rename Tomcat7
+  command: mv -T /tmp/apache-tomcat-7.0.82 /qingke/tomcats/{{ project_name }}_tomcat
+  when: tomcat_version == "tomcat7"
+
+#tomcat8
+- name: Copy and Extract tomcat8 archive
+  unarchive: src=http://192.168.1.150:8080/sw/tomcat/apache-tomcat-8.5.32.tar.gz dest=/tmp/ copy=yes
+  when: tomcat_version == "tomcat8"
+
+- name: Rename Tomcat8
+  command: mv -T /tmp/apache-tomcat-8.5.32 /qingke/tomcats/{{ project_name }}_tomcat
+  when: tomcat_version == "tomcat8"
+
+
+- name: Clear Tomcat Webapps
+  file: path=/qingke/tomcats/{{ project_name }}_tomcat/webapps/ state=absent
+
+- name: Install Tomcat init script
+  template: src=tomcat-initscript.sh dest=/etc/init.d/{{ project_name }} mode=0755
+
+- name: Configure Tomcat server
+  template: src=server_{{ tomcat_version }}.xml.j2 dest=/qingke/tomcats/{{ project_name }}_tomcat/conf/server.xml
+
+- name: Change ownership of Tomcat
+  file: path=/qingke/tomcats/{{ project_name }}_tomcat owner={{ common_user }} group={{ common_user }} state=directory recurse=yes
+  notify: Restart Tomcat
+
+- name: Start Tomcat
+  service: name={{ project_name }} state=started  enabled=yes
+
+- name: wait for tomcat to start
+  wait_for: port={{http_port}}

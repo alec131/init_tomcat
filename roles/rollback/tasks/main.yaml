@@ -1,0 +1,15 @@
+---
+
+- name: Backup Project
+  shell: |
+    backup_name={{ project_name }}_rollback_`date +%Y%m%d_%H%M%S`.tar.gz
+    tar -zcvf /qingke/backup/{{ project_name }}/$backup_name {{ project_name }} --remove-files
+  args:
+    chdir: /qingke/webapps
+
+- name: Rollback Project From Backup
+  shell: |
+    backup_name=`find /qingke/backup/{{ project_name }}/ -type f -not -name '*rollback*'|sort -r|head -1`
+    tar -zxvf $backup_name
+  args:
+    chdir: /qingke/webapps

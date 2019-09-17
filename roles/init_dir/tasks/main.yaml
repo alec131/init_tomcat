@@ -1,0 +1,4 @@
+---
+- name: Init dir
+  file: path={{ item }} owner={{ common_user }} group={{ common_user }} state=directory recurse=yes
+  with_items: '{{ dir_list}}'

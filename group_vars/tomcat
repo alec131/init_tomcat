@@ -1,0 +1,4 @@
+project_name: qktest
+common_user: qktest
+jdk: jdk7
+http_port: 8080

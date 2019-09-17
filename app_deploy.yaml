@@ -1,0 +1,15 @@
+---
+
+- hosts: tomcat-servers
+  remote_user: root
+  become: yes
+  become_method: sudo
+  vars:
+    project_name: qkFastdfsProvider
+    wars_url: http://192.168.1.30/wars
+    project_war: qkFastdfsProvider.war
+    common_user: qktest
+  roles: 
+      #- backup
+      #- deploy
+    - rollback

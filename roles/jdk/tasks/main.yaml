@@ -1,0 +1,26 @@
+---
+# install jdk
+
+- name: Push and Extract jdk6
+  unarchive: src=http://192.168.1.150:8080/sw/jdk/jdk-6u22-linux-x64.tar.gz dest=/opt/ copy=yes
+  when: jdk_version == "jdk6"
+
+- name: Symlink jdk7
+  file: src=/opt/jdk1.6.0_22 path=/opt/jdk6 state=link
+  when: jdk_version == "jdk6"
+
+- name: Push and Extract jdk7
+  unarchive: src=http://192.168.1.150:8080/sw/jdk/jdk1.7.0_55.tar.gz dest=/opt/ copy=yes
+  when: jdk_version == "jdk7"
+
+- name: Symlink jdk7
+  file: src=/opt/jdk1.7.0_55 path=/opt/jdk7 state=link
+  when: jdk_version == "jdk7"
+
+- name: Push and Extract jdk8
+  unarchive: src=http://192.168.1.150:8080/sw/jdk/jdk-8u151-linux-x64.tar.gz dest=/opt/ copy=yes
+  when: jdk_version == "jdk8"
+
+- name: Symlink jdk8
+  file: src=/opt/jdk1.8.0_151 path=/opt/jdk8 state=link
+  when: jdk_version == "jdk8"
